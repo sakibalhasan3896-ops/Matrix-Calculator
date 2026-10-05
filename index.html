@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrix Value Converter</title>
+    <title>Matrix Matrix Quantum Value Converter</title>
     <style>
+        /* ফিনটেক কর্পোরেট ডিপ স্লেট ও মেটালিক ব্যাকগ্রাউন্ড */
         body {
-            background-color: #0d0d0d;
-            color: #e0e0e0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at 50% 50%, #0c0d14 0%, #050508 100%);
+            color: #f1f1f6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -16,117 +17,172 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .container {
             width: 100%;
-            max-width: 450px; /* মোবাইল ও পিসিতে সুন্দর দেখানোর জন্য কমপ্যাক্ট সাইজ */
+            max-width: 440px;
             padding: 20px;
             box-sizing: border-box;
         }
 
-        /* ক্যালকুলেটরের ঠিক ওপরে ১টি মাত্র বিজ্ঞাপন স্পেস */
+        /* প্রিমিয়াম আল্ট্রা-ক্লিন অ্যাড কন্টেইনার */
         .ad-container {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: center;
             width: 100%;
-            max-width: 100%;
             min-height: 90px;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            background-color: #141414;
-            border: 1px dashed #333;
-            border-radius: 6px;
+            background: rgba(15, 17, 26, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            backdrop-filter: blur(12px);
         }
 
+        /* হাই-টেক কোম্পানি লেভেল কাস্টম গ্লাস বক্স */
         .calculator-box {
-            background: #141414;
-            border: 1px solid #ffb703;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+            background: rgba(13, 15, 24, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 35px 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .calculator-box:hover {
+            border-color: rgba(69, 142, 255, 0.4);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(69, 142, 255, 0.05);
         }
 
         .calculator-box h3 {
             margin-top: 0;
-            margin-bottom: 20px;
-            color: #ffb703;
+            margin-bottom: 30px;
+            color: #ffffff;
             font-size: 20px;
             text-align: center;
-            letter-spacing: 0.5px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
         .input-group {
-            margin-bottom: 18px;
+            margin-bottom: 22px;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 6px;
-            font-size: 14px;
-            color: #ffb703;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: #8a8f9e;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        /* ৬ ডিজিটের জন্য ছোট ও নিখুঁত ইনপুতের সাইজ */
+        /* কারেন্সি এবং ইনপুটকে পাশাপাশি বসানোর জন্য ফ্লেক্স লেআউট */
+        .input-wrapper {
+            display: flex;
+            gap: 10px;
+            max-width: 260px;
+        }
+
+        /* প্রিমিয়াম কাস্টম কারেন্সি ড্রপডাউন */
+        .currency-select {
+            padding: 12px;
+            background: #08090e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .currency-select:focus {
+            border-color: #458eff;
+        }
+
+        /* প্রফেশনাল মিনিমালিস্ট ইনপুট বক্স */
         .input-group input {
             width: 100%;
-            max-width: 150px; /* ইনপুট বক্সটি ছোট করা হয়েছে */
-            padding: 10px 12px;
-            background: #0d0d0d;
-            border: 1px solid #333;
-            color: #fff;
-            border-radius: 6px;
+            padding: 12px;
+            background: #08090e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border-radius: 8px;
             box-sizing: border-box;
             font-size: 16px;
             text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
         .input-group input:focus {
-            border-color: #ffb703;
+            border-color: #458eff;
+            box-shadow: 0 0 12px rgba(69, 142, 255, 0.2);
             outline: none;
         }
 
+        /* সিলিকন ভ্যালি স্টাইল সলিড হাই-টেক বাটন */
         .calc-btn {
             width: 100%;
-            padding: 14px;
-            background: #ffb703;
-            color: #0d0d0d;
+            padding: 16px;
+            background: #ffffff;
+            color: #050508;
             border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 0.5px;
             cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
+            transition: all 0.2s ease;
         }
 
         .calc-btn:hover {
-            background: #ffe066;
+            background: #e4e4eb;
+            transform: translateY(-1px);
         }
 
         .calc-btn:active {
-            transform: scale(0.98);
+            transform: translateY(1px);
         }
 
+        /* আল্ট্রা-ক্লিন রেজাল্ট ড্যাশবোর্ড */
         .result-box {
-            margin-top: 20px;
-            padding: 15px;
-            background: #0d0d0d;
-            border-radius: 6px;
-            border-left: 4px solid #00cb49;
+            margin-top: 28px;
+            padding: 20px;
+            background: rgba(8, 9, 14, 0.8);
+            border-radius: 12px;
+            border-top: 2px solid #458eff;
             display: none;
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .result-box p {
-            margin: 8px 0;
-            font-size: 15px;
-            color: #cccccc;
+            margin: 12px 0;
+            font-size: 14px;
+            color: #8a8f9e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .result-box span {
-            font-weight: bold;
-            color: #00cb49;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 17px;
         }
 
         @media (max-width: 480px) {
@@ -134,7 +190,7 @@
                 min-height: 50px;
             }
             .calculator-box {
-                padding: 20px;
+                padding: 30px 20px;
             }
         }
     </style>
@@ -143,60 +199,79 @@
 
     <div class="container">
 
-        <!-- একমাত্র বিজ্ঞাপন স্পেস (ক্যালকুলেটরের ঠিক ওপরে) -->
+        <!-- ডেডিকেটেড অ্যাড নোড -->
         <div class="ad-container">
-            <!-- Adsterra কোড পাওয়ার পর এই লাইনের নিচের অংশটুকু পরিবর্তন করবেন -->
-            <span style="color: #444; font-size: 12px;">Advertisement Space</span>
+            <span style="color: rgba(255, 255, 255, 0.2); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Network Ad Node</span>
         </div>
 
-        <!-- সরাসরি ক্যালকুলেটর বক্স -->
+        <!-- প্রফেশনাল হাই-টেক ইঞ্জিন -->
         <div class="calculator-box">
-            <h3>Risk-Free Value Converter</h3>
+            <h3>Quantum Asset Converter</h3>
             
             <div class="input-group">
-                <label>Free Token / Bonus Amount ($)</label>
-                <!-- max 6 digits input restriction -->
-                <input type="number" id="bonusAmount" value="100" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
+                <label>Token Allocation / Capital Bonus</label>
+                <div class="input-wrapper">
+                    <!-- বৈশ্বিক কারেন্সি সিলেক্টর ড্রপডাউন -->
+                    <select id="currencySign" class="currency-select" onchange="updateCurrency()">
+                        <option value="$">$</option>
+                        <option value="€">€</option>
+                        <option value="£">£</option>
+                        <option value="₹">₹</option>
+                        <option value="¥">¥</option>
+                        <option value="₿">₿</option>
+                    </select>
+                    <input type="number" id="bonusAmount" value="100" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
+                </div>
             </div>
             
             <div class="input-group">
-                <label>Main Odds (Decimal)</label>
-                <input type="number" id="mainOdds" value="2.00" step="0.01" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
+                <label>Primary Index Ratio (Decimal)</label>
+                <input type="number" id="mainOdds" value="2.00" step="0.01" style="max-width: 140px;" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
             </div>
 
             <div class="input-group">
-                <label>Hedge Odds (Decimal)</label>
-                <input type="number" id="hedgeOdds" value="2.10" step="0.01" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
+                <label>Counter-Hedge Ratio (Decimal)</label>
+                <input type="number" id="hedgeOdds" value="2.10" step="0.01" style="max-width: 140px;" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
             </div>
 
-            <button class="calc-btn" onclick="calculateLoop()">Calculate Risk-Free Lock</button>
+            <button class="calc-btn" onclick="calculateLoop()">Execute Strategic Lock</button>
 
             <div class="result-box" id="resultContainer">
-                <p>Required Counter-Hedge Stake: <span id="requiredHedge">$0.00</span></p>
-                <p>Guaranteed Clean Profit Return: <span id="guaranteedProfit">$0.00</span></p>
+                <p>Required Hedge Position: <span id="requiredHedge">0.00</span></p>
+                <p>Guaranteed Capital Yield: <span id="guaranteedProfit" style="color: #458eff;">0.00</span></p>
             </div>
         </div>
 
     </div>
 
     <script>
+        // কারেন্সি সাইন আপডেট করার ফাংশন
+        function updateCurrency() {
+            if(document.getElementById('resultContainer').style.display === "block") {
+                calculateLoop();
+            }
+        }
+
         function calculateLoop() {
             const bonus = parseFloat(document.getElementById('bonusAmount').value);
             const mainOdds = parseFloat(document.getElementById('mainOdds').value);
             const hedgeOdds = parseFloat(document.getElementById('hedgeOdds').value);
+            const currency = document.getElementById('currencySign').value;
 
             if(isNaN(bonus) || isNaN(mainOdds) || isNaN(hedgeOdds) || bonus <= 0 || mainOdds <= 1 || hedgeOdds <= 1) {
-                alert("Please enter valid parameters. Odds metrics must be greater than 1.00.");
+                alert("Error: Invalid allocation metrics. Ratios must exceed 1.00.");
                 return;
             }
 
             const hedgeStake = (bonus * (mainOdds - 1)) / hedgeOdds;
             const netProfit = hedgeStake * (hedgeOdds - 1);
 
-            document.getElementById('requiredHedge').innerText = "$" + hedgeStake.toFixed(2);
-            document.getElementById('guaranteedProfit').innerText = "$" + netProfit.toFixed(2);
+            // কারেন্সি সাইনসহ রেজাল্ট প্রদর্শন
+            document.getElementById('requiredHedge').innerText = currency + " " + hedgeStake.toFixed(2);
+            document.getElementById('guaranteedProfit').innerText = currency + " " + netProfit.toFixed(2);
             document.getElementById('resultContainer').style.display = "block";
         }
     </script>
 </body>
 </html>
+
