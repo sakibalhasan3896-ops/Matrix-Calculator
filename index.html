@@ -66,7 +66,7 @@
             border: 1px solid var(--border-color);
             border-radius: 24px;
             padding: 35px 28px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
         }
@@ -144,7 +144,7 @@
             outline: none;
         }
 
-        /* Live Analytics Output Module (Replaced Button Location) */
+        /* Live Analytics Output Module */
         .result-box {
             margin-top: 25px;
             padding: 20px;
@@ -153,7 +153,6 @@
             border: 1px solid rgba(255, 255, 255, 0.03);
             border-left: 4px solid var(--accent-glow);
             box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
         }
 
         .result-box p {
@@ -170,12 +169,6 @@
             color: var(--text-primary);
             font-size: 16px;
             font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
-            transition: color 0.15s ease;
-        }
-
-        /* Micro-interactions: Keystroke Calculation Blink Trigger */
-        .value-blink {
-            color: var(--accent-glow) !important;
         }
 
         /* Compliance Footer Module */
@@ -208,7 +201,7 @@
 
     <div class="container">
 
-        <!-- Dynamic Content Ad Space Grid Integration -->
+        <!-- Dynamic Content Ad Space Integration -->
         <div class="ad-container">
             <span style="color: rgba(255, 255, 255, 0.15); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Security Verification Node</span>
         </div>
@@ -232,17 +225,17 @@
             </div>
             
             <div class="input-group">
-                <label>Primary Index Ratio (Decimal Odds)</label>
-                <input type="number" id="mainOdds" value="2.00" step="0.01" style="max-width: 140px;" placeholder="2.00" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
+                <label>Primary Index Ratio (Decimal or American Odds)</label>
+                <input type="text" id="mainOdds" value="2.00" style="max-width: 140px;" placeholder="e.g. +100 or 2.00" oninput="if(this.value.length > 7) this.value = this.value.slice(0,7);">
             </div>
 
             <div class="input-group">
-                <label>Counter-Hedge Ratio (Decimal Odds)</label>
-                <input type="number" id="hedgeOdds" value="2.10" step="0.01" style="max-width: 140px;" placeholder="2.10" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
+                <label>Counter-Hedge Ratio (Decimal or American Odds)</label>
+                <input type="text" id="hedgeOdds" value="2.10" style="max-width: 140px;" placeholder="e.g. +110 or 2.10" oninput="if(this.value.length > 7) this.value = this.value.slice(0,7);">
             </div>
 
-            <!-- Instant Calculated Output Panel (No-Button System Layout) -->
-            <div class="result-box" id="resultContainer" style="display: block;">
+            <!-- Instant Calculated Output Panel (Dynamic No-Button System) -->
+            <div class="result-box" id="resultContainer">
                 <p>Required Hedge Amount: <span id="requiredHedge">$0.00</span></p>
                 <p>Estimated Strategy Yield: <span id="estimatedYield" style="color: var(--accent-glow);">$0.00</span></p>
             </div>
@@ -267,12 +260,22 @@
         const requiredHedgeOutput = document.getElementById('requiredHedge');
         const estimatedYieldOutput = document.getElementById('estimatedYield');
 
-        // Instant Real-Time Formula Engine
-        function processInstantHedgeCalculation() {
-            const bonus = parseFloat(bonusInput.value);
-            const mainOdds = parseFloat(mainOddsInput.value);
-            const hedgeOdds = parseFloat(hedgeOddsInput.value);
-            const currency = currencySelect.value;
+        // Smart Universal Parser (Converts American Odds to Decimal instantly if needed)
+        function parseToDecimalOdds(value) {
+            let odds = parseFloat(value);
+            if (isNaN(odds)) return 0;
 
-            // Strict Validation Bounds Check
+            // If user types standard American format (e.g. +150, -110, or raw values above/below 10)
+            if (odds >= 100) {
+                return (odds / 100) + 1; // e.g., +100 becomes 2.00
+            } else if (odds <= -100) {
+                return (100 / Math.abs(odds)) + 1; // e.g., -110 becomes 1.91
+            }
+            
+            // Otherwise, keep it as standard Decimal format
+            return odds;
+        }
 
+        // Instant Real-Time Formula Engine (Triggers immediately on input)
+
+  
