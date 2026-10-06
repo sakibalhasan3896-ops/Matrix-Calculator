@@ -203,6 +203,7 @@
 
         <!-- Dynamic Content Ad Space Integration -->
         <div class="ad-container">
+            <!-- Adsterra কোড পাওয়ার পর এই লাইনের নিচের টেক্সটটি পরিবর্তন করবেন -->
             <span style="color: rgba(255, 255, 255, 0.15); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Security Verification Node</span>
         </div>
 
@@ -213,25 +214,25 @@
             <div class="input-group">
                 <label>Base Capital Allocation / Bonus Volume</label>
                 <div class="input-wrapper">
-                    <select id="currencySign" class="currency-select">
+                    <select id="currencySign" class="currency-select" onchange="runInstantHedge()">
                         <option value="$">$</option>
                         <option value="€">€</option>
                         <option value="£">£</option>
                         <option value="C$">C$</option>
                         <option value="A$">A$</option>
                     </select>
-                    <input type="number" id="bonusAmount" value="100" placeholder="0.00" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6);">
+                    <input type="number" id="bonusAmount" value="100" placeholder="0.00" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6); runInstantHedge();">
                 </div>
             </div>
             
             <div class="input-group">
-                <label>Primary Index Ratio (Decimal or American Odds)</label>
-                <input type="text" id="mainOdds" value="2.00" style="max-width: 140px;" placeholder="e.g. +100 or 2.00" oninput="if(this.value.length > 7) this.value = this.value.slice(0,7);">
+                <label>Primary Index Ratio (Decimal or American)</label>
+                <input type="number" id="mainOdds" value="2.00" step="0.01" style="max-width: 140px;" placeholder="e.g. 2.00 or 150" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6); runInstantHedge();">
             </div>
 
             <div class="input-group">
-                <label>Counter-Hedge Ratio (Decimal or American Odds)</label>
-                <input type="text" id="hedgeOdds" value="2.10" style="max-width: 140px;" placeholder="e.g. +110 or 2.10" oninput="if(this.value.length > 7) this.value = this.value.slice(0,7);">
+                <label>Counter-Hedge Ratio (Decimal or American)</label>
+                <input type="number" id="hedgeOdds" value="2.10" step="0.01" style="max-width: 140px;" placeholder="e.g. 2.10 or -110" oninput="if(this.value.length > 6) this.value = this.value.slice(0,6); runInstantHedge();">
             </div>
 
             <!-- Instant Calculated Output Panel (Dynamic No-Button System) -->
@@ -251,31 +252,27 @@
     </footer>
 
     <script>
-        // DOM Node References
-        const bonusInput = document.getElementById('bonusAmount');
-        const mainOddsInput = document.getElementById('mainOdds');
-        const hedgeOddsInput = document.getElementById('hedgeOdds');
-        const currencySelect = document.getElementById('currencySign');
-        
-        const requiredHedgeOutput = document.getElementById('requiredHedge');
-        const estimatedYieldOutput = document.getElementById('estimatedYield');
-
-        // Smart Universal Parser (Converts American Odds to Decimal instantly if needed)
-        function parseToDecimalOdds(value) {
-            let odds = parseFloat(value);
+        // ওডস কনভার্ট করার ইন্টারনাল ইঞ্জিন (Decimal ও American উভয় ফরম্যাট প্রসেস করার জন্য)
+        function convertToDecimalBase(inputValue) {
+            let odds = parseFloat(inputValue);
             if (isNaN(odds)) return 0;
 
-            // If user types standard American format (e.g. +150, -110, or raw values above/below 10)
+            // যদি ইউজার ইউএস ফরম্যাট (যেমন: +150 বা রিলিজ ওডস ১০০ এর বেশি) দেয়
             if (odds >= 100) {
-                return (odds / 100) + 1; // e.g., +100 becomes 2.00
-            } else if (odds <= -100) {
-                return (100 / Math.abs(odds)) + 1; // e.g., -110 becomes 1.91
+                return (odds / 100) + 1;
+            } 
+            // যদি ইউজার মাইনাস ওডস (যেমন: -110) দেয়
+            else if (odds <= -100) {
+                return (100 / Math.abs(odds)) + 1;
             }
-            
-            // Otherwise, keep it as standard Decimal format
+
             return odds;
         }
 
-        // Instant Real-Time Formula Engine (Triggers immediately on input)
+        // লাইভ ইনস্ট্যান্ট ক্যালকুলেশন ফাংশন
+        function runInstantHedge() {
+            const bonus = parseFloat(document.getElementById('bonusAmount').value);
+            const mainOdds = convertToDecimalBase(document.getElementById('mainOdds').value);
+            const hedgeOdds = convertToDecimalBase(document.getElementById('hedgeOdds').value);
+            const currency = document.getElementById('currencySign').value;
 
-  
